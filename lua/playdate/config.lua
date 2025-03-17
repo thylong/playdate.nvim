@@ -11,7 +11,6 @@ local defaults = {
 	build = {
 		source_dir = "src",
 		output_dir = "build",
-		build_on_save = false,
 	},
 	server_settings = {
 		Lua = {

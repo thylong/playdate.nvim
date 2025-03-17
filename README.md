@@ -18,8 +18,10 @@ lazy.nvim:
   opts = {
     playdate_sdk_path = "/path/to/playdate-sdk", -- or set PLAYDATE_SDK_PATH
     playdate_luacats_path = "/path/to/playdate-luacats" -- or set PLAYDATE_LUACATS_PATH (optional)
-    project_src = "src",
-    output_dir = "build",
+    build = {
+      source_dir = "src",
+      output_dir = "build"
+    }
     server_settings = {
       -- Server settings placed here will be merged into the defaults shown below.
     }
@@ -73,3 +75,9 @@ When loaded, the plugin looks for a [`pdxinfo`](https://sdk.play.date/2.6.2/Insi
   },
 }
 ```
+
+## Commands
+
+- `:PlaydateSetup` - Sets up LuaLS for a Playdate project
+- `:PlaydateBuild` - Compile the local project
+- `:PlaydateRun` - Compile and run the local project in the Playdate simulator
