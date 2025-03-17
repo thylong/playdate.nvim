@@ -1,22 +1,19 @@
+local Config = require("playdate.config")
+
+function is_playdate_project()
+	return vim.uv.fs_stat((vim.uv.cwd() or ".") .. "/pdxinfo") ~= nil
+end
+
 local M = {}
 
---- @param opts Config
+---@param opts? playdate.Config
 function M.setup(opts)
-	local config = require("playdate.config")
-	local luacats = require("playdate.luacats")
-	local lsp = require("playdate.lsp")
+	Config.setup(opts)
 
-	config.setup(opts)
-
-	luacats.setup(opts)
-
-	vim.api.nvim_create_autocmd("VimEnter", {
-		callback = function()
-			if lsp.is_playdate_project() then
-				lsp.setup(opts)
-			end
-		end,
-	})
+	if is_playdate_project() then
+		vim.notify("Detected Playdate project", vim.log.levels.INFO, { title = "playdate.nvim" })
+		require("playdate.lspconfig").setup()
+	end
 end
 
 return M
