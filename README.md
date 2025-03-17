@@ -29,6 +29,13 @@ lazy.nvim:
 }
 ```
 
+## Commands
+
+- `:PlaydateSetup` - Sets up LuaLS for a Playdate project
+- `:PlaydateBuild` - Compile the local project
+- `:PlaydateRun` - Compile and run the local project in the Playdate simulator
+- `:PlaydateRunOnly` - Run the local project in the Playdate simulator
+
 ## How it works
 
 When loaded, the plugin looks for a [`pdxinfo`](https://sdk.play.date/2.6.2/Inside%20Playdate.html#pdxinfo) file in the current working directory to determine if it is a Playdate project. If so, it will overwrite the `lua_ls` configuration with the following (including any custom settings provided in `server_settings`):
@@ -75,9 +82,3 @@ When loaded, the plugin looks for a [`pdxinfo`](https://sdk.play.date/2.6.2/Insi
   },
 }
 ```
-
-## Commands
-
-- `:PlaydateSetup` - Sets up LuaLS for a Playdate project
-- `:PlaydateBuild` - Compile the local project
-- `:PlaydateRun` - Compile and run the local project in the Playdate simulator

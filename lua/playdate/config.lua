@@ -82,8 +82,10 @@ function M.setup(opts)
 		return
 	end
 
-	options.build_input = options.build_input and vim.fs.normalize(options.build_input)
-	options.build_output = options.build_output and vim.fs.normalize(options.build_output)
+	options.build = {
+		source_dir = vim.fs.normalize(vim.fs.joinpath(vim.uv.cwd() or ".", options.build.source_dir or ".")),
+		output_dir = vim.fs.normalize(vim.fs.joinpath(vim.uv.cwd() or ".", options.build.output_dir or ".")),
+	}
 
 	options.server_settings = vim.tbl_deep_extend("force", options.server_settings, {
 		Lua = {
@@ -100,12 +102,16 @@ function M.setup(opts)
 		require("playdate.lspconfig").setup()
 	end, { desc = "Setup the lua_ls for Playdate" })
 
-	vim.api.nvim_create_user_command("PlaydateBuild", function()
+	vim.api.nvim_create_user_command("PlaydateBuild", function(a)
 		require("playdate.compile").build()
 	end, { desc = "Compile the Playdate project" })
 
 	vim.api.nvim_create_user_command("PlaydateRun", function()
 		require("playdate.compile").run()
+	end, { desc = "Compile and run Playdate project in the Simulator" })
+
+	vim.api.nvim_create_user_command("PlaydateRunOnly", function()
+		require("playdate.compile").run_only()
 	end, { desc = "Compile and run Playdate project in the Simulator" })
 
 	return options
