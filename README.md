@@ -82,3 +82,8 @@ When loaded, the plugin looks for a [`pdxinfo`](https://sdk.play.date/2.6.2/Insi
   },
 }
 ```
+
+## See also
+
+- https://stephanmax.com/playdate-development-neovim/
+- https://devforum.play.date/t/neovim-central-thread/7953
