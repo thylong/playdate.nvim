@@ -56,10 +56,6 @@ function M.setup(opts)
 	options = vim.tbl_deep_extend("force", {}, defaults, opts or {})
 
 	if options.playdate_sdk_path == nil then
-		local msg =
-			"PLAYDATE_SDK_PATH is not set. Set it or set the playdate_sdk_path option in the plugin configuration."
-		vim.notify_once(msg, vim.log.levels.ERROR, { title = "playdate.nvim" })
-		error(msg)
 		return
 	end
 
