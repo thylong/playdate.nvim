@@ -14,10 +14,7 @@ function M.setup(opts)
 	if is_playdate_project() then
 		Util.notify("🟨 Detected Playdate project", vim.log.levels.INFO)
 
-		local ok, err = pcall(require("playdate.lspconfig").setup)
-		if not ok then
-			Util.notify(err, vim.log.levels.ERROR)
-		end
+		require("playdate.lspconfig").setup()
 	end
 end
 

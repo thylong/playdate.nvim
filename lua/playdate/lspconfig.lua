@@ -5,11 +5,12 @@ local M = {}
 
 function M.setup()
 	if Config.playdate_sdk_path == nil then
-		error "playdate_sdk_path is not set."
+		Util.notify("playdate_sdk_path is not set.", vim.log.levels.ERROR)
+		return
 	end
 
 	if not vim.uv.fs_stat(Config.playdate_sdk_path) then
-		error "playdate_sdk_path is not valid."
+		Util.notify("playdate_sdk_path is not valid.", vim.log.levels.ERROR)
 	end
 
 	if Config.playdate_luacats_path ~= nil then
