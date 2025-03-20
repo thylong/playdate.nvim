@@ -20,7 +20,7 @@ lazy.nvim:
     playdate_luacats_path = "/path/to/playdate-luacats" -- or set PLAYDATE_LUACATS_PATH (optional)
     build = {
       source_dir = "src",
-      output_dir = "build"
+      output_dir = "build.pdx"
     }
     server_settings = {
       -- Server settings placed here will be merged into the defaults shown below.
@@ -31,14 +31,14 @@ lazy.nvim:
 
 ## Commands
 
-- `:PlaydateSetup` - Sets up LuaLS for a Playdate project
-- `:PlaydateBuild` - Compile the local project
-- `:PlaydateRun` - Compile and run the local project in the Playdate simulator
-- `:PlaydateRunOnly` - Run the local project in the Playdate simulator
+- `:PlaydateSetup` - Set up Neovim and LuaLS for a Playdate project
+- `:PlaydateBuild [src [out]]` - Compile a project with `pdc`
+- `:PlaydateBuildRun [src [out]]` - Compile and run a project in the Playdate simulator
+- `:PlaydateRun [out]` - Run a compiled project in the Playdate simulator
 
 ## How it works
 
-When loaded, the plugin looks for a [`pdxinfo`](https://sdk.play.date/2.6.2/Inside%20Playdate.html#pdxinfo) file in the current working directory to determine if it is a Playdate project. If so, it will overwrite the `lua_ls` configuration with the following (including any custom settings provided in `server_settings`):
+When loaded with, the plugin looks for a [`pdxinfo`](https://sdk.play.date/2.6.2/Inside%20Playdate.html#pdxinfo) file in `build.source_dir` in the current working directory to determine if it is a Playdate project. If so, it will overwrite the `lua_ls` configuration with the following (including any custom settings provided in `server_settings`). You can also trigger this manually with `:PlaydateSetup`.
 
 ```lua
 {

@@ -1,0 +1,6 @@
+syntax = "Lua51"
+
+call_parentheses = "NoSingleString"
+
+[sort_requires]
+enabled = true

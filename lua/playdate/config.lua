@@ -10,7 +10,7 @@ local defaults = {
 	--- @class playdate.Config.build
 	build = {
 		source_dir = "src",
-		output_dir = "build",
+		output_dir = "build.pdx",
 	},
 	server_settings = {
 		Lua = {
@@ -56,31 +56,16 @@ function M.setup(opts)
 	options = vim.tbl_deep_extend("force", {}, defaults, opts or {})
 
 	if options.playdate_sdk_path == nil then
-		return
+		options.playdate_sdk_path = vim.fs.normalize(options.playdate_sdk_path)
 	end
 
-	options.playdate_sdk_path = vim.fs.normalize(options.playdate_sdk_path)
-	options.playdate_luacats_path = options.playdate_luacats_path and vim.fs.normalize(options.playdate_luacats_path)
-
-	if not vim.uv.fs_stat(options.playdate_sdk_path) then
-		local msg =
-			"PLAYDATE_SDK_PATH is not valid. Set it or set the playdate_sdk_path option in the plugin configuration."
-		vim.notify_once(msg, vim.log.levels.ERROR, { title = "playdate.nvim" })
-		error(msg)
-		return
-	end
-
-	if options.playdate_luacats_path ~= nil and not vim.uv.fs_stat(options.playdate_luacats_path) then
-		local msg =
-			"PLAYDATE_LUACATS_PATH is not valid. Set it or set the playdate_luacats_path option in the plugin configuration."
-		vim.notify_once(msg, vim.log.levels.ERROR, { title = "playdate.nvim" })
-		error(msg)
-		return
+	if options.playdate_luacats_path ~= nil then
+		options.playdate_luacats_path = vim.fs.normalize(options.playdate_luacats_path)
 	end
 
 	options.build = {
-		source_dir = vim.fs.normalize(vim.fs.joinpath(vim.uv.cwd() or ".", options.build.source_dir or ".")),
-		output_dir = vim.fs.normalize(vim.fs.joinpath(vim.uv.cwd() or ".", options.build.output_dir or ".")),
+		source_dir = vim.fs.joinpath(vim.uv.cwd() or ".", options.build.source_dir),
+		output_dir = vim.fs.joinpath(vim.uv.cwd() or ".", options.build.output_dir),
 	}
 
 	options.server_settings = vim.tbl_deep_extend("force", options.server_settings, {
@@ -96,19 +81,19 @@ function M.setup(opts)
 
 	vim.api.nvim_create_user_command("PlaydateSetup", function()
 		require("playdate.lspconfig").setup()
-	end, { desc = "Setup the lua_ls for Playdate" })
+	end, { desc = "Setup lua_ls for Playdate" })
 
-	vim.api.nvim_create_user_command("PlaydateBuild", function(a)
-		require("playdate.compile").build()
-	end, { desc = "Compile the Playdate project" })
+	vim.api.nvim_create_user_command("PlaydateBuild", function(opts)
+		require("playdate.compile").build(opts.fargs[1], opts.fargs[2])
+	end, { desc = "Compile a project with `pdc`", nargs = "*" })
 
-	vim.api.nvim_create_user_command("PlaydateRun", function()
-		require("playdate.compile").run()
-	end, { desc = "Compile and run Playdate project in the Simulator" })
+	vim.api.nvim_create_user_command("PlaydateBuildRun", function(opts)
+		require("playdate.compile").build_and_run(opts.fargs[1], opts.fargs[2])
+	end, { desc = "Compile and run a project in the Playdate simulator", nargs = "*" })
 
-	vim.api.nvim_create_user_command("PlaydateRunOnly", function()
-		require("playdate.compile").run_only()
-	end, { desc = "Compile and run Playdate project in the Simulator" })
+	vim.api.nvim_create_user_command("PlaydateRun", function(opts)
+		require("playdate.compile").run(opts.fargs[1])
+	end, { desc = "Run a compiled project in the Playdate simulator", nargs = "?" })
 
 	return options
 end
