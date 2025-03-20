@@ -55,7 +55,7 @@ local options
 function M.setup(opts)
 	options = vim.tbl_deep_extend("force", {}, defaults, opts or {})
 
-	if options.playdate_sdk_path == nil then
+	if options.playdate_sdk_path ~= nil then
 		options.playdate_sdk_path = vim.fs.normalize(options.playdate_sdk_path)
 	end
 
