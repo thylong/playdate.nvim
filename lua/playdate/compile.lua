@@ -42,6 +42,11 @@ function M._build(src, out)
 		src = vim.fs.joinpath(vim.uv.cwd() or ".", src)
 	end
 
+	if not vim.uv.fs_stat(src) then
+		Util.notify("Source dir " .. src .. " not found.", vim.log.levels.WARN)
+		return false
+	end
+
 	if out == nil then
 		out = Config.build.output_dir
 	else
@@ -58,13 +63,10 @@ function M._build(src, out)
 	-- 	end
 	-- end)
 
-	-- call build cmd
-	local obj = vim.system({ pdc, src, out }, {
-		text = true,
-	}):wait()
+	local obj = vim.system({ pdc, src, out }, { text = true }):wait()
 
 	if obj.code ~= 0 then
-		Util.notify("Failed to build project: " .. obj.stderr, vim.log.levels.ERROR)
+		Util.notify("Build failed: " .. obj.stderr, vim.log.levels.ERROR)
 		return false
 	end
 
