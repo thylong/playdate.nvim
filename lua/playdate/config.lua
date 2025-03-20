@@ -2,11 +2,11 @@
 local M = {}
 
 --- @class playdate.Config
---- @field playdate_sdk_path string
+--- @field playdate_sdk_path string?
 --- @field playdate_luacats_path string?
 local defaults = {
-	playdate_sdk_path = vim.env.PLAYDATE_SDK_PATH,
-	playdate_luacats_path = vim.env.PLAYDATE_LUACATS_PATH,
+	playdate_sdk_path = os.getenv "PLAYDATE_SDK_PATH",
+	playdate_luacats_path = os.getenv "PLAYDATE_LUACATS_PATH",
 	--- @class playdate.Config.build
 	build = {
 		source_dir = "src",
