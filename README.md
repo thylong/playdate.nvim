@@ -76,7 +76,7 @@ When loaded, the plugin looks for a [`pdxinfo`](https://sdk.play.date/2.6.2/Insi
     workspace = {
       library = {
         options.playdate_sdk_path,
-        options.playdate_luacats_clone,
+        options.playdate_luacats_path,
       },
     },
   },
