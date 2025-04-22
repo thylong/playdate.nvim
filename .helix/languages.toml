@@ -1,0 +1,2 @@
+[language-server.lua-language-server]
+config = { "Lua"= { "workspace"= { "library" = [ ${PLAYDATE_SDK_PATH}, ${LUACATS_SDK_PATH} ] } } }

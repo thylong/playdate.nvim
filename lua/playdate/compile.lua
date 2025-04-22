@@ -82,7 +82,18 @@ function M._run(out)
 		out = vim.fs.joinpath(vim.uv.cwd() or ".", out)
 	end
 
-	local playdate_simulator = vim.fs.joinpath(Config.playdate_sdk_path, "/bin/PlaydateSimulator")
+	local playdate_simulator
+	if vim.fn.has("mac") then
+		playdate_simulator = vim.fs.joinpath(Config.playdate_sdk_path,
+			"/bin/Playdate Simulator.app/Contents/MacOS/Playdate Simulator")
+	else
+		playdate_simulator = vim.fs.joinpath(Config.playdate_sdk_path, "/bin/PlaydateSimulator")
+	end
+
+	if not vim.uv.fs_stat(playdate_simulator) then
+		Util.notify("Playdate Simulator executable not found at " .. playdate_simulator, vim.log.levels.ERROR)
+		return
+	end
 
 	vim.system({ playdate_simulator, out }, {
 		text = true,
@@ -90,7 +101,7 @@ function M._run(out)
 		stderr = false,
 	}, function(out)
 		if out.code ~= 0 then
-			Util.notify("Playdate Simulator exited with error code" .. out.code, vim.log.levels.ERROR)
+			Util.notify("Playdate Simulator exited with error code: " .. out.code, vim.log.levels.ERROR)
 		end
 	end)
 end
