@@ -98,7 +98,7 @@ function M._run(out)
   -- If Simulator is already running, close it
   local pid = vim.fn.system("pgrep -f 'Playdate Simulator'")
   if pid ~= "" then
-    vim.fn.system("kill -15" .. pid)
+    vim.fn.system("kill -TERM" .. pid)
   end
 
 	vim.system({ playdate_simulator, out }, {
