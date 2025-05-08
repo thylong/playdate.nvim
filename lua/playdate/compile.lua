@@ -109,6 +109,11 @@ function M._run(out)
 		if out.code ~= 0 then
 			Util.notify("Playdate Simulator exited with error code: " .. out.code, vim.log.levels.ERROR)
 		end
+
+    -- Activate the simulator window
+	  if vim.fn.has("mac") then
+      vim.fn.system("osascript -e 'tell application \"Playdate Simulator\" to activate'")
+	  end
 	end)
 end
 
